@@ -1,0 +1,100 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.codeshell.intellij.codeshell-intellij-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>CodeShell</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor></vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    IntelliJ plugin for CodeShell.
+    </br>
+    <p><b>Features:</b><br/>
+    <ul>
+        <li>AI code completion suggestions as you type.</li>
+        <li>Prompt AI with selected text in the editor.</li>
+    </ul>
+    </p>
+    <br/>
+  ]]></description>
+
+    <change-notes><![CDATA[
+    <p>
+    <ul>
+        <li>0.1</li>
+        <ul>
+            <li>This is the initial release of the plugin.</li>
+            <li>Added insert single line action</li>
+            <li>Give special hints</li>
+        </ul>
+    </ul>
+    </p>
+    ]]>
+    </change-notes>
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <editorOptionsProvider instance="com.codeshell.intellij.settings.CodeShellSettingsProvider"/>
+
+        <applicationService serviceImplementation="com.codeshell.intellij.services.CodeShellCompleteService"/>
+        <applicationService serviceImplementation="com.codeshell.intellij.settings.CodeShellSettings"/>
+
+        <statusBarWidgetFactory id="CodeShellFactory"
+                                implementation="com.codeshell.intellij.widget.CodeShellWidgetFactory"
+                                order="after positionWidget"/>
+
+        <editorActionHandler action="EditorTab" implementationClass="com.codeshell.intellij.actions.complete.CodeGenTabAction"/>
+
+        <notificationGroup id="CodeShell" displayType="STICKY_BALLOON" isLogByDefault="true"/>
+        <toolWindow id="CodeShell" anchor="right" icon="com.codeshell.intellij.utils.CodeShellIcons.Action" factoryClass="com.codeshell.intellij.window.CodeShellSideWindowFactory"/>
+        <projectService id="CodeShellWindowService"
+                        serviceImplementation="com.codeshell.intellij.services.CodeShellSideWindowService"/>
+    </extensions>
+
+    <actions>
+        <group id="CodeShellActions" popup="true" text="CodeShell" description="CodeShell"
+               icon="/icons/actionIcon.svg">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <action id="CodeShell.ExplainCode" class="com.codeshell.intellij.actions.assistants.ExplainCode" text="Explain Code">
+                <override-text place="GoToAction" text="CodeShell: Explain Code"/>
+                <keyboard-shortcut first-keystroke="alt E" keymap="$default"/>
+            </action>
+            <action id="CodeShell.OptimizeCode" class="com.codeshell.intellij.actions.assistants.OptimizeCode" text="Optimize Code">
+                <override-text place="GoToAction" text="CodeShell: Optimize Code"/>
+            </action>
+            <action id="CodeShell.CleanCode" class="com.codeshell.intellij.actions.assistants.CleanCode" text="Clean Code">
+                <override-text place="GoToAction" text="CodeShell: Clean Code"/>
+            </action>
+            <separator/>
+            <action id="CodeShell.CommentCode" class="com.codeshell.intellij.actions.assistants.CommentCode" text="Generate Comment">
+                <override-text place="GoToAction" text="CodeShell: Generate Comment"/>
+                <keyboard-shortcut first-keystroke="alt V" keymap="$default"/>
+            </action>
+            <action id="CodeShell.UnitTestCode" class="com.codeshell.intellij.actions.assistants.UnitTestCode" text="Generate Unit Tests">
+                <override-text place="GoToAction" text="CodeShell: Generate Unit Tests"/>
+            </action>
+            <separator/>
+            <action id="CodeShell.PerformanceCode" class="com.codeshell.intellij.actions.assistants.PerformanceCode" text="Performance Check">
+                <override-text place="GoToAction" text="CodeShell: Performance Check"/>
+            </action>
+            <action id="CodeShell.StyleCode" class="com.codeshell.intellij.actions.assistants.StyleCode" text="Style Check">
+                <override-text place="GoToAction" text="CodeShell: Style Check"/>
+            </action>
+            <action id="CodeShell.SecurityCode" class="com.codeshell.intellij.actions.assistants.SecurityCode" text="Security Check">
+                <override-text place="GoToAction" text="CodeShell: Security Check"/>
+            </action>
+        </group>
+    </actions>
+
+</idea-plugin>
