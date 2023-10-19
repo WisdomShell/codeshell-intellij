@@ -7,46 +7,81 @@ The `codeshell-intellij`project is an open-source plugin developed based on the 
 - The [CodeShell](https://github.com/WisdomShell/llama_cpp_for_codeshell) service is running
 - The IDE version requirement is between 2022.2 and 2023.2.
 
-##  Configuration
+##  Compile the Plugin
 
-- Set the address for the CodeShell service.
-- Configure whether to enable automatic code completion suggestions.
-- Set the time delay for triggering automatic code completion suggestions.
-- Specify the maximum number of tokens for code completion.
-- Specify the maximum number of tokens for Q&A.
+- The project uses Gradle to manage dependencies. Click the "Refresh" button to automatically reload dependencies.
+- To run the plugin locally, navigate to `Gradle` > `CodeShell` > `Task` > `intellij` > `runIde`.
+- Right-click on `runIde` and choose to start in Debug mode.
+
+
+![插件DEBUG截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/debug-plugin.png)
+
+### Package the Plugin
+
+- Generate a Local Plugin Installation Package: Navigate to `Gradle` > `CodeShell` > `Task` > `intellij` > `buildPlugin`.
+- Once the packaging task is completed, the plugin installation package can be found in the `build/distributions` directory at the project's root.
+
+### Install the Plugin
+
+- Installation Process: Go to `Settings` > `Plugin` > `Install Plugin from Disk...`, and in the opened file selection window, choose the plugin installation package
+
+![插件安装截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/install-plugin-disk.png)
+
+##  Model Service
+
+The [`llama_cpp_for_codeshell`](https://github.com/WisdomShell/llama_cpp_for_codeshell) project provides the 4-bit quantized model service of the [CodeShell](https://github.com/WisdomShell/codeshell) LLM, named `CodeShell_q4_0.gguf`. Here are the steps to deploy the model service:
+
+### Get the Code
+
+```bash
+git clone https://github.com/WisdomShell/llama_cpp_for_codeshell.git
+cd codeshell.cpp
+```
+
+### Load the model locally
+
+After downloading the model from the [Hugging Face Hub](https://huggingface.co/WisdomShell/codeshell.gguf) to your local machine, placing the model in the `llama_cpp_for_codeshell/models` folder path in the above code will allow you to load the model locally.
+
+```bash
+git clone https://huggingface.co/WisdomShell/CodeShell_q4_0.gguf
+```
+
+### Deploy the Model
+
+Use the `server` command in the `llama_cpp_for_codeshell` project to provide API services.
+
+```bash
+./server -m ./models/CodeShell_q4_0.gguf --host 127.0.0.1 --port 8080
+```
+
+The default deployment is on local port 8080, and it can be called through the POST method.
+
+##  Configure the Plugin
+
+- Set the address for the CodeShell service
+- Configure whether to enable automatic code completion suggestions
+- Specify the maximum number of tokens for code completion
+- Specify the maximum number of tokens for Q&A
 
 ![插件配置截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_config.png)
 
 ## Features
 
-### 1. Code Suggestions
-
-- Automatic Code Suggestions
-- Keyboard Shortcut for Code Suggestions
-
-During the coding process, code suggestions are automatically triggered when there is a pause in typing (with a delay configurable in the plugin settings, ranging from 1 to 3 seconds). Alternatively, you can use the keyboard shortcut Alt+\\ (Mac: option+\\) to trigger code suggestions.
-
-When the plugin provides code suggestions, they are displayed in gray at the editor's cursor location. You can press the Tab key to accept the suggestion or continue typing to ignore it.
-
-![代码建议截图](https://resource.zsmarter.cn/appdata/codeshell-vscode/screenshots/docs_completion.png)
-
-### 2. Code Assistance
+### 1. Code Assistance
 
 - Explain/Optimize/Cleanse a Code Segment
 - Generate Comments/Unit Tests for Code
 - Check Code for Performance/Security Issues
 
-In the ide sidebar, open the plugin's Q&A interface. Select a portion of code in the editor, right-click to access the CodeShell menu, and choose the corresponding function. The plugin will provide relevant responses in the Q&A interface.
+In the IDE sidebar, open the plugin's Q&A interface. Select a portion of code in the editor, right-click to access the CodeShell menu, and choose the corresponding function. The plugin will provide relevant responses in the Q&A interface.
 
 Within the Q&A interface's code block, you can click the copy button to copy the code block or use the insert button to insert the code block's content at the editor's cursor location.
 
 ![代码辅助截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_inte.png)
 
-### 3. Code Q&A
+### 2. Code Q&A
 
 - Support for Multi-turn Conversations
-- Maintain Conversation History
-- Engage in Multi-turn Dialogues Based on Previous Conversations
 - Edit Questions and Rephrase Inquiries
 - Request Fresh Responses for Any Question
 - Interrupt During the Answering Process
