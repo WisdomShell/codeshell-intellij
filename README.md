@@ -42,6 +42,7 @@ git clone https://github.com/WisdomShell/codeshell-intellij.git
 ```bash
 git clone https://github.com/WisdomShell/llama_cpp_for_codeshell.git
 cd llama_cpp_for_codeshell
+make server
 ```
 
 ### 下载模型
