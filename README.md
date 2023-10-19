@@ -9,6 +9,11 @@
 
 ## 插件编译
 
+如果要从源码进行打包，请先获取代码：
+
+```bash
+git clone https://github.com/WisdomShell/codeshell-intellij.git
+```
 - 项目使用Gradle管理依赖，点击`刷新`按钮回自动重新加载依赖
 - 本地运行插件：`Gradle`-`CodeShell`-`Task`-`intellij`-`runIde`
 - 在`runIde`右键，可选择使用Debug模式启动
@@ -85,7 +90,7 @@ git clone https://huggingface.co/WisdomShell/CodeShell-7B-Chat-int4/codeshell_q4
 - 对任一问题，可重新获取回答
 - 在回答过程中，可以打断
 
-![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.jpg)
+![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.png)
 
 ## 开源协议
 Apache 2.0

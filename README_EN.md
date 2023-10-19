@@ -5,9 +5,15 @@ The `codeshell-intellij`project is an open-source plugin developed based on the 
 ## Requirements
 
 - The [CodeShell](https://github.com/WisdomShell/llama_cpp_for_codeshell) service is running
-- The IDE version requirement is between 2022.2 and 2023.2.
+- The IDE version requirement is between 2022.2 and 2023.2
 
 ##  Compile the Plugin
+
+If you want to package from source code, please obtain the code first:
+
+```bash
+git clone https://github.com/WisdomShell/codeshell-intellij.git
+```
 
 - The project uses Gradle to manage dependencies. Click the "Refresh" button to automatically reload dependencies.
 - To run the plugin locally, navigate to `Gradle` > `CodeShell` > `Task` > `intellij` > `runIde`.
@@ -86,7 +92,7 @@ Within the Q&A interface's code block, you can click the copy button to copy the
 - Request Fresh Responses for Any Question
 - Interrupt During the Answering Process
 
-![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.jpg)
+![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.png)
 
 ## License
 Apache 2.0
