@@ -66,7 +66,7 @@ public class CodeShellCompleteService {
     }
 
     private String generateFIMPrompt(String prefix, String suffix) {
-        return SUFFIX_TAG + suffix + PREFIX_TAG + prefix + MIDDLE_TAG;
+        return PREFIX_TAG + prefix + SUFFIX_TAG + suffix + MIDDLE_TAG;
     }
 
     private HttpPost buildApiPost(CodeShellSettings settings, String codeShellPrompt) {

@@ -17,7 +17,7 @@ public final class CodeShellSideWindowService {
         return this.project;
     }
 
-    public CodeShellSideWindow getCodeShellWindow() {
+    public CodeShellSideWindow getCodeShellSideWindow() {
         return this.codeShellSideWindow;
     }
 
@@ -28,7 +28,7 @@ public final class CodeShellSideWindowService {
 
 
     public void notifyIdeAppInstance(@NotNull JsonObject result) {
-        CefBrowser browser = this.getCodeShellWindow().jbCefBrowser().getCefBrowser();
+        CefBrowser browser = this.getCodeShellSideWindow().jbCefBrowser().getCefBrowser();
         browser.executeJavaScript("window.postMessage(" + result + ",'*');", browser.getURL(), 0);
     }
 }

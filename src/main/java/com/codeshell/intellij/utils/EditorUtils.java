@@ -69,6 +69,7 @@ public class EditorUtils {
             JsonObject returnObj = new JsonObject();
             returnObj.add("range", range);
             returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+            returnObj.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
             returnObj.add("sendText", sendText);
 
             return returnObj;

@@ -16,7 +16,7 @@ public class OpenDevTools extends DumbAwareAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         try {
-            CodeShellSideWindow codeShellSideWindow = Objects.requireNonNull(e.getProject()).getService(CodeShellSideWindowService.class).getCodeShellWindow();
+            CodeShellSideWindow codeShellSideWindow = Objects.requireNonNull(e.getProject()).getService(CodeShellSideWindowService.class).getCodeShellSideWindow();
             codeShellSideWindow.jbCefBrowser().openDevtools();
         } catch (Exception exception) {
             exception.printStackTrace();

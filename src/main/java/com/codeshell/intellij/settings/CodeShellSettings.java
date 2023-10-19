@@ -21,7 +21,7 @@ public class CodeShellSettings implements PersistentStateComponent<Element> {
     private static final String TAB_ACTION_TAG = "TAB_ACTION";
     private static final String COMPLETION_MAX_TOKENS_TAG = "COMPLETION_MAX_TOKENS";
     private static final String CHAT_MAX_TOKENS_TAG = "CHAT_MAX_TOKENS";
-    private boolean saytEnabled = true;
+    private boolean saytEnabled = false;
     private String completeURL = "http://127.0.0.1:8080/completion";
     private TabActionOption tabActionOption = TabActionOption.ALL;
     private CompletionMaxToken completionMaxToken = CompletionMaxToken.HIGH;

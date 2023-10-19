@@ -20,8 +20,8 @@ public class CodeShellSideWindowFactory implements ToolWindowFactory {
         ContentManager contentManager = toolWindow.getContentManager();
         JPanel webPanel = new JPanel(new BorderLayout());
         CodeShellSideWindowService service = project.getService(CodeShellSideWindowService.class);
-        if (Objects.nonNull(service.getCodeShellWindow()) && Objects.nonNull(service.getCodeShellWindow().getComponent())) {
-            webPanel.add(service.getCodeShellWindow().getComponent());
+        if (Objects.nonNull(service.getCodeShellSideWindow()) && Objects.nonNull(service.getCodeShellSideWindow().getComponent())) {
+            webPanel.add(service.getCodeShellSideWindow().getComponent());
             Content labelContent = contentManager.getFactory().createContent(webPanel, "", false);
             contentManager.addContent(labelContent);
         }
