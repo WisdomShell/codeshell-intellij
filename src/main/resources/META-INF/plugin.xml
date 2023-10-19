@@ -1,43 +1,39 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.codeshell.intellij.codeshell-intellij-plugin</id>
+    <id>codeshell</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>CodeShell</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor></vendor>
+    <vendor>WisdomShell</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    IntelliJ plugin for CodeShell.
+    The CodeShell is an open-source plugin developed based on the [CodeShell LLM].
+    It serves as an intelligent coding assistant. This plugin provides features like code completion, code interpretation,
+    code optimization, comment generation..
     </br>
     <p><b>Features:</b><br/>
     <ul>
-        <li>AI code completion suggestions as you type.</li>
-        <li>Prompt AI with selected text in the editor.</li>
+        <li>Explain/Optimize/Cleanse a Code Segment</li>
+        <li>Generate Comments/Unit Tests for Code</li>
+        <li>Check Code for Performance/Security Issues</li>
+        <li>Support for Multi-turn Conversations</li>
+        <li>Edit Questions and Rephrase Inquiries</li>
+        <li>Request Fresh Responses for Any Question</li>
+        <li>Interrupt During the Answering Process</li>
     </ul>
     </p>
     <br/>
+
+    <p><a href="https://github.com/WisdomShell" target="_blank">CodeShell Github Address</a></p>
   ]]></description>
 
-    <change-notes><![CDATA[
-    <p>
-    <ul>
-        <li>0.1</li>
-        <ul>
-            <li>This is the initial release of the plugin.</li>
-            <li>Added insert single line action</li>
-            <li>Give special hints</li>
-        </ul>
-    </ul>
-    </p>
-    ]]>
-    </change-notes>
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
