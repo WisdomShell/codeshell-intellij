@@ -29,7 +29,7 @@ git clone https://github.com/WisdomShell/codeshell-intellij.git
 
 ### Install the Plugin
 
-- Installation Process: Go to `Settings` > `Plugin` > `Install Plugin from Disk...`, and in the opened file selection window, choose the plugin installation package
+- Installation Process: Go to `Settings` > `Plugins` > `Install Plugin from Disk...`, and in the opened file selection window, choose the plugin installation package
 
 ![插件安装截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/install-plugin-disk.png)
 

@@ -14,7 +14,7 @@
 ```bash
 git clone https://github.com/WisdomShell/codeshell-intellij.git
 ```
-- 项目使用Gradle管理依赖，点击`刷新`按钮回自动重新加载依赖
+- 项目使用Gradle管理依赖，点击`刷新`按钮自动重新加载依赖
 - 本地运行插件：`Gradle`-`CodeShell`-`Task`-`intellij`-`runIde`
 - 在`runIde`右键，可选择使用Debug模式启动
 
@@ -27,7 +27,7 @@ git clone https://github.com/WisdomShell/codeshell-intellij.git
 
 ### 安装插件
 
-- 安装入口：`Settings`-`Plugin`-`Install Plugin from Disk...`，在打开的资源选择窗口中选择插件安装包即可
+- 安装入口：`Settings`-`Plugins`-`Install Plugin from Disk...`，在打开的资源选择窗口中选择插件安装包即可
 
 ![插件安装截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/install-plugin-disk.png)
 
