@@ -86,7 +86,7 @@ Note: In cases where Metal is enabled during compilation, you can also explicitl
 
 In the IDE sidebar, open the plugin's Q&A interface. Select a portion of code in the editor, right-click to access the CodeShell menu, and choose the corresponding function. The plugin will provide relevant responses in the Q&A interface.
 
-Within the Q&A interface's code block, you can click the copy button to copy the code block or use the insert button to insert the code block's content at the editor's cursor location.
+Within the Q&A interface's code block, you can click the copy button to copy the code block.
 
 ![代码辅助截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_inte.png)
 

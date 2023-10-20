@@ -16,13 +16,23 @@ import java.util.Objects;
 @State(name = "CodeShellSettings", storages = @Storage("codeshell_settings.xml"))
 public class CodeShellSettings implements PersistentStateComponent<Element> {
     public static final String SETTINGS_TAG = "CodeShellSettings";
-    private static final String COMPLETE_URL_TAG = "COMPLETE_URL";
+    private static final String CPU_COMPLETE_URL_TAG = "CPU_COMPLETE_URL";
+    private static final String CPU_ASSISTANTS_URL_TAG = "CPU_ASSISTANTS_URL";
+    private static final String GPU_COMPLETE_URL_TAG = "GPU_COMPLETE_URL";
+    private static final String GPU_ASSISTANTS_URL_TAG = "GPU_ASSISTANTS_URL";
     private static final String SAYT_TAG = "SAYT_ENABLED";
+    private static final String CPU_RADIO_BUTTON_TAG = "CPU_RADIO_BUTTON_ENABLED";
+    private static final String GPU_RADIO_BUTTON_TAG = "GPU_RADIO_BUTTON_ENABLED";
     private static final String TAB_ACTION_TAG = "TAB_ACTION";
     private static final String COMPLETION_MAX_TOKENS_TAG = "COMPLETION_MAX_TOKENS";
     private static final String CHAT_MAX_TOKENS_TAG = "CHAT_MAX_TOKENS";
-    private boolean saytEnabled = false;
-    private String completeURL = "http://127.0.0.1:8080/completion";
+    private boolean saytEnabled = true;
+    private boolean cpuRadioButtonEnabled = true;
+    private boolean gpuRadioButtonEnabled = false;
+    private String cpuCompleteURL = "http://127.0.0.1:8080/infill/serverurl";
+    private String cpuAssistantsURL = "http://127.0.0.1:8080/completion/serverurl";
+    private String gpuCompleteURL = "http://127.0.0.1:8080/completion";
+    private String gpuAssistantsURL = "http://127.0.0.1:8080/Assistants";
     private TabActionOption tabActionOption = TabActionOption.ALL;
     private CompletionMaxToken completionMaxToken = CompletionMaxToken.HIGH;
     private ChatMaxToken chatMaxToken = ChatMaxToken.HIGH;
@@ -32,7 +42,12 @@ public class CodeShellSettings implements PersistentStateComponent<Element> {
     @Override
     public @Nullable Element getState() {
         Element state = new Element(SETTINGS_TAG);
-        state.setAttribute(COMPLETE_URL_TAG, getCompleteURL());
+        state.setAttribute(CPU_RADIO_BUTTON_TAG, Boolean.toString(isCPURadioButtonEnabled()));
+        state.setAttribute(GPU_RADIO_BUTTON_TAG, Boolean.toString(isGPURadioButtonEnabled()));
+        state.setAttribute(CPU_COMPLETE_URL_TAG, getCPUCompleteURL());
+        state.setAttribute(CPU_ASSISTANTS_URL_TAG, getCPUAssistantsURL());
+        state.setAttribute(GPU_COMPLETE_URL_TAG, getGPUCompleteURL());
+        state.setAttribute(GPU_ASSISTANTS_URL_TAG, getGPUAssistantsURL());
         state.setAttribute(SAYT_TAG, Boolean.toString(isSaytEnabled()));
         state.setAttribute(TAB_ACTION_TAG, getTabActionOption().name());
         state.setAttribute(COMPLETION_MAX_TOKENS_TAG, getCompletionMaxToken().name());
@@ -42,8 +57,23 @@ public class CodeShellSettings implements PersistentStateComponent<Element> {
 
     @Override
     public void loadState(@NotNull Element state) {
-        if (Objects.nonNull(state.getAttributeValue(COMPLETE_URL_TAG))) {
-            setCompleteURL(state.getAttributeValue(COMPLETE_URL_TAG));
+        if (Objects.nonNull(state.getAttributeValue(CPU_RADIO_BUTTON_TAG))) {
+            setCPURadioButtonEnabled(Boolean.parseBoolean(state.getAttributeValue(CPU_RADIO_BUTTON_TAG)));
+        }
+        if (Objects.nonNull(state.getAttributeValue(GPU_RADIO_BUTTON_TAG))) {
+            setGPURadioButtonEnabled(Boolean.parseBoolean(state.getAttributeValue(GPU_RADIO_BUTTON_TAG)));
+        }
+        if (Objects.nonNull(state.getAttributeValue(CPU_COMPLETE_URL_TAG))) {
+            setCPUCompleteURL(state.getAttributeValue(CPU_COMPLETE_URL_TAG));
+        }
+        if (Objects.nonNull(state.getAttributeValue(CPU_ASSISTANTS_URL_TAG))) {
+            setCPUAssistantsURL(state.getAttributeValue(CPU_ASSISTANTS_URL_TAG));
+        }
+        if (Objects.nonNull(state.getAttributeValue(GPU_COMPLETE_URL_TAG))) {
+            setGPUCompleteURL(state.getAttributeValue(GPU_COMPLETE_URL_TAG));
+        }
+        if (Objects.nonNull(state.getAttributeValue(GPU_ASSISTANTS_URL_TAG))) {
+            setGPUAssistantsURL(state.getAttributeValue(GPU_ASSISTANTS_URL_TAG));
         }
         if (Objects.nonNull(state.getAttributeValue(SAYT_TAG))) {
             setSaytEnabled(Boolean.parseBoolean(state.getAttributeValue(SAYT_TAG)));
@@ -83,12 +113,52 @@ public class CodeShellSettings implements PersistentStateComponent<Element> {
         this.saytEnabled = !this.saytEnabled;
     }
 
-    public String getCompleteURL() {
-        return completeURL;
+    public boolean isCPURadioButtonEnabled() {
+        return cpuRadioButtonEnabled;
     }
 
-    public void setCompleteURL(String completeURL) {
-        this.completeURL = completeURL;
+    public void setCPURadioButtonEnabled(boolean cpuRadioButtonEnabled) {
+        this.cpuRadioButtonEnabled = cpuRadioButtonEnabled;
+    }
+
+    public boolean isGPURadioButtonEnabled() {
+        return gpuRadioButtonEnabled;
+    }
+
+    public void setGPURadioButtonEnabled(boolean gpuRadioButtonEnabled) {
+        this.gpuRadioButtonEnabled = gpuRadioButtonEnabled;
+    }
+
+    public String getCPUCompleteURL() {
+        return cpuCompleteURL;
+    }
+
+    public void setCPUCompleteURL(String cpuCompleteURL) {
+        this.cpuCompleteURL = cpuCompleteURL;
+    }
+
+    public String getCPUAssistantsURL() {
+        return cpuAssistantsURL;
+    }
+
+    public void setCPUAssistantsURL(String cpuAssistantsURL) {
+        this.cpuAssistantsURL = cpuAssistantsURL;
+    }
+
+    public String getGPUCompleteURL() {
+        return gpuCompleteURL;
+    }
+
+    public void setGPUCompleteURL(String gpuCompleteURL) {
+        this.gpuCompleteURL = gpuCompleteURL;
+    }
+
+    public String getGPUAssistantsURL() {
+        return gpuAssistantsURL;
+    }
+
+    public void setGPUAssistantsURL(String gpuAssistantsURL) {
+        this.gpuAssistantsURL = gpuAssistantsURL;
     }
 
     public CompletionMaxToken getCompletionMaxToken() {

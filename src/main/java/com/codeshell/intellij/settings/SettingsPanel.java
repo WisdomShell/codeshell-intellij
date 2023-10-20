@@ -10,8 +10,10 @@ import javax.swing.*;
 public class SettingsPanel {
 
     private JPanel panel;
-    private JTextField serverAddressTextField;
-    private JPanel API;
+    private JTextField cpuCompletionUrlTextField;
+
+    private JTextField cpuAssistantsUrlTextField;
+    private JPanel modelRuntime;
     private JPanel Parameters;
     private JCheckBox enableSAYTCheckBox;
     private JPanel Settings;
@@ -19,11 +21,23 @@ public class SettingsPanel {
     private JPanel TabActionPanel;
     private JComboBox<TabActionOption> tabActionComboBox;
     private JLabel tabActionLabel;
-    private JLabel serverAddressLabel;
     private JComboBox<CompletionMaxToken> completionMaxTokensComboBox;
     private JComboBox<ChatMaxToken> chatMaxTokensComboBox;
+    private JRadioButton useGPUModelRadioButton;
+    private JLabel gpuCompletionUrlLabel;
+    private JLabel gpuAssistantsUrlLabel;
+    private JTextField gpuCompletionUrlTextField;
+    private JTextField gpuAssistantsUrlTextField;
+    private JRadioButton useCPUModelRadioButton;
+    private JLabel cpucompletionUrlLabel;
+    private JLabel cpuAssistantsUrlLabel;
 
     public SettingsPanel() {
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(useGPUModelRadioButton);
+        buttonGroup.add(useCPUModelRadioButton);
+
         tabActionComboBox.setModel(new EnumComboBoxModel<>(TabActionOption.class));
         enableSAYTCheckBox.addActionListener(e -> {
             tabActionLabel.setEnabled(enableSAYTCheckBox.isSelected());
@@ -39,12 +53,53 @@ public class SettingsPanel {
         return panel;
     }
 
-    public String getServerAddress() {
-        return serverAddressTextField.getText();
+    public boolean getCPUModelRadioButton() {
+        return useCPUModelRadioButton.isSelected();
     }
 
-    public void setServerAddress(String serverAddress) {
-        serverAddressTextField.setText(serverAddress);
+    public void setCPUModelRadioButton(boolean enabledCPURadioButton) {
+        useCPUModelRadioButton.setSelected(enabledCPURadioButton);
+    }
+
+    public boolean getGPUModelRadioButton() {
+        return useGPUModelRadioButton.isSelected();
+    }
+
+    public void setGPUModelRadioButton(boolean enabledGPURadioButton) {
+        useGPUModelRadioButton.setSelected(enabledGPURadioButton);
+    }
+
+    public String getCPUCompletionUrl() {
+        return cpuCompletionUrlTextField.getText();
+    }
+
+    public void setCPUCompletionUrl(String cpuCompletionUrl) {
+        cpuCompletionUrlTextField.setText(cpuCompletionUrl);
+    }
+
+    public String getCPUAssistantsUrl() {
+        return cpuAssistantsUrlTextField.getText();
+    }
+
+    public void setCPUAssistantsUrl(String cpuAssistantsUrl) {
+        cpuAssistantsUrlTextField.setText(cpuAssistantsUrl);
+    }
+
+
+    public String getGPUCompletionUrl() {
+        return gpuCompletionUrlTextField.getText();
+    }
+
+    public void setGPUCompletionUrl(String gpuCompletionUrl) {
+        gpuCompletionUrlTextField.setText(gpuCompletionUrl);
+    }
+
+    public String getGPUAssistantsUrl() {
+        return gpuAssistantsUrlTextField.getText();
+    }
+
+    public void setGPUAssistantsUrl(String gpuAssistantsUrl) {
+        gpuAssistantsUrlTextField.setText(gpuAssistantsUrl);
     }
 
     public boolean getEnableSAYTCheckBox() {

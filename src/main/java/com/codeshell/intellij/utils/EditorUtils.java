@@ -68,10 +68,15 @@ public class EditorUtils {
 
             JsonObject returnObj = new JsonObject();
             returnObj.add("range", range);
-            returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+            if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
+                returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getCPUAssistantsURL());
+                returnObj.addProperty("modelType", "CPU");
+            }else{
+                returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getGPUAssistantsURL());
+                returnObj.addProperty("modelType", "GPU");
+            }
             returnObj.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
             returnObj.add("sendText", sendText);
-
             return returnObj;
         }
     }

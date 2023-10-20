@@ -18,12 +18,15 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class CodeShellCompleteService {
 
     private static final String PREFIX_TAG = "<fim_prefix>";
     private static final String SUFFIX_TAG = "<fim_suffix>";
     private static final String MIDDLE_TAG = "<fim_middle>";
+    private static final String REG_EXP = "data:\\s?(.*?)\n";
+    private static final Pattern PATTERN = Pattern.compile(REG_EXP);
     private static long lastRequestTime = 0;
     private static boolean httpRequestFinFlag = true;
     private int statusCode = 200;
@@ -34,16 +37,20 @@ public class CodeShellCompleteService {
         if (!httpRequestFinFlag || !settings.isSaytEnabled() || contents.length() == 0) {
             return null;
         }
-
         if (contents.contains(PREFIX_TAG) || contents.contains(SUFFIX_TAG) || contents.contains(MIDDLE_TAG) || contents.contains(PrefixString.RESPONSE_END_TAG)) {
             return null;
         }
-
         String prefix = contents.substring(CodeShellUtils.prefixHandle(0, cursorPosition), cursorPosition);
         String suffix = contents.substring(cursorPosition, CodeShellUtils.suffixHandle(cursorPosition, editorContents.length()));
+        String generatedText = "";
         String codeShellPrompt = generateFIMPrompt(prefix, suffix);
-        HttpPost httpPost = buildApiPost(settings, codeShellPrompt);
-        String generatedText = getApiResponse(settings, httpPost, codeShellPrompt);
+        if(settings.isCPURadioButtonEnabled()){
+            HttpPost httpPost = buildApiPostForCPU(settings, prefix, suffix);
+            generatedText = getApiResponseForCPU(settings, httpPost, codeShellPrompt);
+        }else{
+            HttpPost httpPost = buildApiPostForGPU(settings, codeShellPrompt);
+            generatedText = getApiResponseForGPU(settings, httpPost, codeShellPrompt);
+        }
 
         String[] suggestionList = null;
         if (generatedText.contains(MIDDLE_TAG)) {
@@ -69,16 +76,52 @@ public class CodeShellCompleteService {
         return PREFIX_TAG + prefix + SUFFIX_TAG + suffix + MIDDLE_TAG;
     }
 
-    private HttpPost buildApiPost(CodeShellSettings settings, String codeShellPrompt) {
-        String apiURL = CodeShellUtils.selectUrl(settings);
+    private HttpPost buildApiPostForCPU(CodeShellSettings settings, String prefix,String suffix) {
+        String apiURL = settings.getCPUCompleteURL();
         HttpPost httpPost = new HttpPost(apiURL);
-        JsonObject httpBody = CodeShellUtils.encapsulateHttpRequestBody(settings, codeShellPrompt);
+        JsonObject httpBody = CodeShellUtils.pakgHttpRequestBodyForCPU(settings, prefix, suffix);
         StringEntity requestEntity = new StringEntity(httpBody.toString(), ContentType.APPLICATION_JSON);
         httpPost.setEntity(requestEntity);
         return httpPost;
     }
 
-    private String getApiResponse(CodeShellSettings settings, HttpPost httpPost, String codeShellPrompt) {
+    private HttpPost buildApiPostForGPU(CodeShellSettings settings, String codeShellPrompt) {
+        String apiURL = settings.getGPUCompleteURL();
+        HttpPost httpPost = new HttpPost(apiURL);
+        JsonObject httpBody = CodeShellUtils.pakgHttpRequestBodyForGPU(settings, codeShellPrompt);
+        StringEntity requestEntity = new StringEntity(httpBody.toString(), ContentType.APPLICATION_JSON);
+        httpPost.setEntity(requestEntity);
+        return httpPost;
+    }
+
+    private String getApiResponseForCPU(CodeShellSettings settings, HttpPost httpPost, String codeShellPrompt) {
+        String responseText = "";
+        httpRequestFinFlag = false;
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpResponse response = httpClient.execute(httpPost);
+            int oldStatusCode = statusCode;
+            statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != oldStatusCode) {
+                for (Project openProject : ProjectManager.getInstance().getOpenProjects()) {
+                    WindowManager.getInstance().getStatusBar(openProject).updateWidget(CodeShellWidget.ID);
+                }
+            }
+            if (statusCode != 200) {
+                return responseText;
+            }
+            String responseBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+            responseText = CodeShellUtils.parseHttpResponseContentForCPU(settings, responseBody, PATTERN);
+            httpClient.close();
+        } catch (IOException e) {
+        } finally {
+            httpRequestFinFlag = true;
+        }
+
+        return codeShellPrompt + responseText;
+    }
+
+    private String getApiResponseForGPU(CodeShellSettings settings, HttpPost httpPost, String codeShellPrompt) {
         String responseText = "";
         httpRequestFinFlag = false;
         try {
@@ -95,7 +138,7 @@ public class CodeShellCompleteService {
                 return responseText;
             }
             String responseBody = EntityUtils.toString(response.getEntity());
-            responseText = CodeShellUtils.parseHttpResponseContent(settings, responseBody);
+            responseText = CodeShellUtils.parseHttpResponseContentForGPU(settings, responseBody);
             httpClient.close();
         } catch (IOException e) {
         } finally {

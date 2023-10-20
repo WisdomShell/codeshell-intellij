@@ -83,7 +83,13 @@ public class CodeShellSideWindow {
             public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+                if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getCPUAssistantsURL());
+                    jsonObject.addProperty("modelType", "CPU");
+                }else{
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getGPUAssistantsURL());
+                    jsonObject.addProperty("modelType", "GPU");
+                }
                 jsonObject.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
                 JsonObject result = new JsonObject();
                 result.addProperty("data", jsonObject.toString());
