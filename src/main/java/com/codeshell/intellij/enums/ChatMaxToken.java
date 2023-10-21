@@ -1,10 +1,10 @@
 package com.codeshell.intellij.enums;
 
 public enum ChatMaxToken {
-    LOW("128"),
-    MEDIUM("512"),
-    HIGH("1024"),
-    ULTRA("2048");
+    LOW("1024"),
+    MEDIUM("2048"),
+    HIGH("4096"),
+    ULTRA("8192");
 
     private final String description;
 

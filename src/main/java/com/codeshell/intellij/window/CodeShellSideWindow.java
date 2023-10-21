@@ -1,5 +1,6 @@
 package com.codeshell.intellij.window;
 
+import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.handlers.CustomSchemeHandlerFactory;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.settings.CodeShellSettings;
@@ -86,7 +87,13 @@ public class CodeShellSideWindow {
             public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+                if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.CPU_CHAT.getUri());
+                    jsonObject.addProperty("modelType", "CPU");
+                }else{
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.GPU_CHAT.getUri());
+                    jsonObject.addProperty("modelType", "GPU");
+                }
                 jsonObject.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
                 JsonObject result = new JsonObject();
                 result.addProperty("data", jsonObject.toString());

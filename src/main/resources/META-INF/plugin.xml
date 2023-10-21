@@ -31,7 +31,7 @@
     </p>
     <br/>
 
-    <p><a href="https://github.com/WisdomShell" target="_blank">CodeShell Github Address</a></p>
+    <p>The plugin relies on a locally running CodeShell model. For more information, please refer to <a href="https://github.com/WisdomShell" target="_blank">CodeShell repository</a></p>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -41,21 +41,17 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <editorOptionsProvider instance="com.codeshell.intellij.settings.CodeShellSettingsProvider"/>
-
         <applicationService serviceImplementation="com.codeshell.intellij.services.CodeShellCompleteService"/>
         <applicationService serviceImplementation="com.codeshell.intellij.settings.CodeShellSettings"/>
-
+        <applicationConfigurable parentId="tools" instance="com.codeshell.intellij.settings.CodeShellSettingsProvider"
+                                 id="CodeShellSettingsProvider" displayName="CodeShell"/>
         <statusBarWidgetFactory id="CodeShellFactory"
                                 implementation="com.codeshell.intellij.widget.CodeShellWidgetFactory"
                                 order="after positionWidget"/>
-
         <editorActionHandler action="EditorTab" implementationClass="com.codeshell.intellij.actions.complete.CodeGenTabAction"/>
-
         <notificationGroup id="CodeShell" displayType="STICKY_BALLOON" isLogByDefault="true"/>
         <toolWindow id="CodeShell" anchor="right" icon="com.codeshell.intellij.utils.CodeShellIcons.Action" factoryClass="com.codeshell.intellij.window.CodeShellSideWindowFactory"/>
-        <projectService id="CodeShellSideWindowService"
-                        serviceImplementation="com.codeshell.intellij.services.CodeShellSideWindowService"/>
+        <projectService id="CodeShellSideWindowService" serviceImplementation="com.codeshell.intellij.services.CodeShellSideWindowService"/>
     </extensions>
 
     <actions>

@@ -1,5 +1,6 @@
 package com.codeshell.intellij.utils;
 
+import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.settings.CodeShellSettings;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.application.ApplicationManager;
@@ -68,10 +69,15 @@ public class EditorUtils {
 
             JsonObject returnObj = new JsonObject();
             returnObj.add("range", range);
-            returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+            if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
+                returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.CPU_CHAT.getUri());
+                returnObj.addProperty("modelType", "CPU");
+            }else{
+                returnObj.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.GPU_CHAT.getUri());
+                returnObj.addProperty("modelType", "GPU");
+            }
             returnObj.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
             returnObj.add("sendText", sendText);
-
             return returnObj;
         }
     }

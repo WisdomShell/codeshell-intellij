@@ -1,5 +1,6 @@
 package com.codeshell.intellij.settings;
 
+import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.widget.CodeShellWidget;
 import com.google.gson.JsonObject;
@@ -41,9 +42,11 @@ public class CodeShellSettingsProvider implements EditorOptionsProvider {
     @Override
     public boolean isModified() {
         CodeShellSettings savedSettings = CodeShellSettings.getInstance();
-        return !savedSettings.getCompleteURL().equals(settingsPanel.getServerAddress())
+        return !savedSettings.getServerAddressURL().equals(settingsPanel.getServerAddressUrl())
                 || savedSettings.getTabActionOption() != settingsPanel.getTabActionOption()
                 || savedSettings.isSaytEnabled() != settingsPanel.getEnableSAYTCheckBox()
+                || savedSettings.isCPURadioButtonEnabled() != settingsPanel.getCPUModelRadioButton()
+                || savedSettings.isGPURadioButtonEnabled() != settingsPanel.getGPUModelRadioButton()
                 || savedSettings.getCompletionMaxToken() != settingsPanel.getCompletionMaxTokens()
                 || savedSettings.getChatMaxToken() != settingsPanel.getChatMaxTokens();
     }
@@ -51,8 +54,10 @@ public class CodeShellSettingsProvider implements EditorOptionsProvider {
     @Override
     public void apply() {
         CodeShellSettings savedSettings = CodeShellSettings.getInstance();
-        savedSettings.setCompleteURL(settingsPanel.getServerAddress());
+        savedSettings.setServerAddressURL(settingsPanel.getServerAddressUrl());
         savedSettings.setSaytEnabled(settingsPanel.getEnableSAYTCheckBox());
+        savedSettings.setCPURadioButtonEnabled(settingsPanel.getCPUModelRadioButton());
+        savedSettings.setGPURadioButtonEnabled(settingsPanel.getGPUModelRadioButton());
         savedSettings.setTabActionOption(settingsPanel.getTabActionOption());
         savedSettings.setCompletionMaxToken(settingsPanel.getCompletionMaxTokens());
         savedSettings.setChatMaxToken(settingsPanel.getChatMaxTokens());
@@ -62,7 +67,13 @@ public class CodeShellSettingsProvider implements EditorOptionsProvider {
         }
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getCompleteURL());
+        if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
+            jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.CPU_CHAT.getUri());
+            jsonObject.addProperty("modelType", "CPU");
+        }else{
+            jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.GPU_CHAT.getUri());
+            jsonObject.addProperty("modelType", "GPU");
+        }
         jsonObject.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());
         JsonObject result = new JsonObject();
         result.addProperty("data", jsonObject.toString());
@@ -73,9 +84,11 @@ public class CodeShellSettingsProvider implements EditorOptionsProvider {
     @Override
     public void reset() {
         CodeShellSettings savedSettings = CodeShellSettings.getInstance();
-        settingsPanel.setServerAddress(savedSettings.getCompleteURL());
+        settingsPanel.setServerAddressUrl(savedSettings.getServerAddressURL());
         settingsPanel.setEnableSAYTCheckBox(savedSettings.isSaytEnabled());
         settingsPanel.setTabActionOption(savedSettings.getTabActionOption());
+        settingsPanel.setCPUModelRadioButton(savedSettings.isCPURadioButtonEnabled());
+        settingsPanel.setGPUModelRadioButton(savedSettings.isGPURadioButtonEnabled());
         settingsPanel.setCompletionMaxTokens(savedSettings.getCompletionMaxToken());
         settingsPanel.setChatMaxTokens(savedSettings.getChatMaxToken());
     }

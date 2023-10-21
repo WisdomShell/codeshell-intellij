@@ -11,7 +11,8 @@ public class SettingsPanel {
 
     private JPanel panel;
     private JTextField serverAddressTextField;
-    private JPanel API;
+
+    private JPanel modelRuntime;
     private JPanel Parameters;
     private JCheckBox enableSAYTCheckBox;
     private JPanel Settings;
@@ -19,11 +20,17 @@ public class SettingsPanel {
     private JPanel TabActionPanel;
     private JComboBox<TabActionOption> tabActionComboBox;
     private JLabel tabActionLabel;
-    private JLabel serverAddressLabel;
     private JComboBox<CompletionMaxToken> completionMaxTokensComboBox;
     private JComboBox<ChatMaxToken> chatMaxTokensComboBox;
+    private JRadioButton useGPUModelRadioButton;
+    private JRadioButton useCPUModelRadioButton;
 
     public SettingsPanel() {
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(useGPUModelRadioButton);
+        buttonGroup.add(useCPUModelRadioButton);
+
         tabActionComboBox.setModel(new EnumComboBoxModel<>(TabActionOption.class));
         enableSAYTCheckBox.addActionListener(e -> {
             tabActionLabel.setEnabled(enableSAYTCheckBox.isSelected());
@@ -39,11 +46,27 @@ public class SettingsPanel {
         return panel;
     }
 
-    public String getServerAddress() {
+    public boolean getCPUModelRadioButton() {
+        return useCPUModelRadioButton.isSelected();
+    }
+
+    public void setCPUModelRadioButton(boolean enabledCPURadioButton) {
+        useCPUModelRadioButton.setSelected(enabledCPURadioButton);
+    }
+
+    public boolean getGPUModelRadioButton() {
+        return useGPUModelRadioButton.isSelected();
+    }
+
+    public void setGPUModelRadioButton(boolean enabledGPURadioButton) {
+        useGPUModelRadioButton.setSelected(enabledGPURadioButton);
+    }
+
+    public String getServerAddressUrl() {
         return serverAddressTextField.getText();
     }
 
-    public void setServerAddress(String serverAddress) {
+    public void setServerAddressUrl(String serverAddress) {
         serverAddressTextField.setText(serverAddress);
     }
 
