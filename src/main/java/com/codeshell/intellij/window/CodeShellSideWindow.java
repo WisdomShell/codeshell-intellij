@@ -1,5 +1,6 @@
 package com.codeshell.intellij.window;
 
+import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.handlers.CustomSchemeHandlerFactory;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.settings.CodeShellSettings;
@@ -84,10 +85,10 @@ public class CodeShellSideWindow {
 
                 JsonObject jsonObject = new JsonObject();
                 if(CodeShellSettings.getInstance().isCPURadioButtonEnabled()){
-                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getCPUAssistantsURL());
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.CPU_CHAT.getUri());
                     jsonObject.addProperty("modelType", "CPU");
                 }else{
-                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getGPUAssistantsURL());
+                    jsonObject.addProperty("sendUrl", CodeShellSettings.getInstance().getServerAddressURL() + CodeShellURI.GPU_CHAT.getUri());
                     jsonObject.addProperty("modelType", "GPU");
                 }
                 jsonObject.addProperty("maxToken", CodeShellSettings.getInstance().getChatMaxToken().getDescription());

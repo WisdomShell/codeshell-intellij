@@ -61,11 +61,6 @@
         <group id="CodeShellActions" popup="true" text="CodeShell" description="CodeShell"
                icon="/icons/actionIcon.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            <action id="TfbCoder.OpenDevTools" class="com.codeshell.intellij.actions.assistants.OpenDevTools" text="OpenDevTools"
-                    description="OpenDevTools">
-                <override-text place="GoToAction" text="TfbCoder: OpenDevTools"/>
-            </action>
-            <separator/>
             <action id="CodeShell.ExplainCode" class="com.codeshell.intellij.actions.assistants.ExplainCode" text="Explain Code">
                 <override-text place="GoToAction" text="CodeShell: Explain Code"/>
                 <keyboard-shortcut first-keystroke="alt E" keymap="$default"/>

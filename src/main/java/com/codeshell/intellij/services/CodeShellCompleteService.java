@@ -1,6 +1,7 @@
 package com.codeshell.intellij.services;
 
 import com.codeshell.intellij.constant.PrefixString;
+import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.settings.CodeShellSettings;
 import com.codeshell.intellij.utils.CodeShellUtils;
 import com.codeshell.intellij.widget.CodeShellWidget;
@@ -77,7 +78,7 @@ public class CodeShellCompleteService {
     }
 
     private HttpPost buildApiPostForCPU(CodeShellSettings settings, String prefix,String suffix) {
-        String apiURL = settings.getCPUCompleteURL();
+        String apiURL = settings.getServerAddressURL() + CodeShellURI.CPU_COMPLETE.getUri();
         HttpPost httpPost = new HttpPost(apiURL);
         JsonObject httpBody = CodeShellUtils.pakgHttpRequestBodyForCPU(settings, prefix, suffix);
         StringEntity requestEntity = new StringEntity(httpBody.toString(), ContentType.APPLICATION_JSON);
@@ -86,7 +87,7 @@ public class CodeShellCompleteService {
     }
 
     private HttpPost buildApiPostForGPU(CodeShellSettings settings, String codeShellPrompt) {
-        String apiURL = settings.getGPUCompleteURL();
+        String apiURL = settings.getServerAddressURL() + CodeShellURI.GPU_COMPLETE.getUri();
         HttpPost httpPost = new HttpPost(apiURL);
         JsonObject httpBody = CodeShellUtils.pakgHttpRequestBodyForGPU(settings, codeShellPrompt);
         StringEntity requestEntity = new StringEntity(httpBody.toString(), ContentType.APPLICATION_JSON);
@@ -117,7 +118,6 @@ public class CodeShellCompleteService {
         } finally {
             httpRequestFinFlag = true;
         }
-
         return codeShellPrompt + responseText;
     }
 

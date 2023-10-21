@@ -10,9 +10,8 @@ import javax.swing.*;
 public class SettingsPanel {
 
     private JPanel panel;
-    private JTextField cpuCompletionUrlTextField;
+    private JTextField serverAddressTextField;
 
-    private JTextField cpuAssistantsUrlTextField;
     private JPanel modelRuntime;
     private JPanel Parameters;
     private JCheckBox enableSAYTCheckBox;
@@ -24,13 +23,7 @@ public class SettingsPanel {
     private JComboBox<CompletionMaxToken> completionMaxTokensComboBox;
     private JComboBox<ChatMaxToken> chatMaxTokensComboBox;
     private JRadioButton useGPUModelRadioButton;
-    private JLabel gpuCompletionUrlLabel;
-    private JLabel gpuAssistantsUrlLabel;
-    private JTextField gpuCompletionUrlTextField;
-    private JTextField gpuAssistantsUrlTextField;
     private JRadioButton useCPUModelRadioButton;
-    private JLabel cpucompletionUrlLabel;
-    private JLabel cpuAssistantsUrlLabel;
 
     public SettingsPanel() {
 
@@ -69,37 +62,12 @@ public class SettingsPanel {
         useGPUModelRadioButton.setSelected(enabledGPURadioButton);
     }
 
-    public String getCPUCompletionUrl() {
-        return cpuCompletionUrlTextField.getText();
+    public String getServerAddressUrl() {
+        return serverAddressTextField.getText();
     }
 
-    public void setCPUCompletionUrl(String cpuCompletionUrl) {
-        cpuCompletionUrlTextField.setText(cpuCompletionUrl);
-    }
-
-    public String getCPUAssistantsUrl() {
-        return cpuAssistantsUrlTextField.getText();
-    }
-
-    public void setCPUAssistantsUrl(String cpuAssistantsUrl) {
-        cpuAssistantsUrlTextField.setText(cpuAssistantsUrl);
-    }
-
-
-    public String getGPUCompletionUrl() {
-        return gpuCompletionUrlTextField.getText();
-    }
-
-    public void setGPUCompletionUrl(String gpuCompletionUrl) {
-        gpuCompletionUrlTextField.setText(gpuCompletionUrl);
-    }
-
-    public String getGPUAssistantsUrl() {
-        return gpuAssistantsUrlTextField.getText();
-    }
-
-    public void setGPUAssistantsUrl(String gpuAssistantsUrl) {
-        gpuAssistantsUrlTextField.setText(gpuAssistantsUrl);
+    public void setServerAddressUrl(String serverAddress) {
+        serverAddressTextField.setText(serverAddress);
     }
 
     public boolean getEnableSAYTCheckBox() {

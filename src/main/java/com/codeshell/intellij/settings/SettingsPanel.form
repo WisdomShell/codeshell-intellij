@@ -8,91 +8,33 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="39ed3" binding="modelRuntime" layout-manager="GridLayoutManager" row-count="6" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="39ed3" binding="modelRuntime" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false">
             <minimum-size width="1" height="1"/>
-            <preferred-size width="600" height="250"/>
-            <maximum-size width="800" height="290"/>
+            <preferred-size width="600" height="100"/>
+            <maximum-size width="800" height="130"/>
           </grid>
         </constraints>
         <properties/>
         <border type="etched" title="Model Runtime Environment"/>
         <children>
-          <component id="29677" class="javax.swing.JRadioButton" binding="useGPUModelRadioButton">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="240" height="30"/>
-                <maximum-size width="280" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Use GPU Model(with TGI framework)"/>
-            </properties>
-          </component>
-          <component id="ede34" class="javax.swing.JLabel" binding="gpuCompletionUrlLabel">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="110" height="30"/>
-                <maximum-size width="110" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="   Completion URL"/>
-            </properties>
-          </component>
-          <component id="9a2d7" class="javax.swing.JLabel" binding="gpuAssistantsUrlLabel">
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="105" height="30"/>
-                <maximum-size width="105" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="   Assistants URL"/>
-            </properties>
-          </component>
-          <component id="44dfd" class="javax.swing.JTextField" binding="gpuCompletionUrlTextField">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="450" height="30"/>
-                <maximum-size width="500" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value=""/>
-            </properties>
-          </component>
-          <component id="d80cc" class="javax.swing.JTextField" binding="gpuAssistantsUrlTextField">
-            <constraints>
-              <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="450" height="30"/>
-                <maximum-size width="500" height="40"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="ee69" class="javax.swing.JRadioButton" binding="useCPUModelRadioButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="1" height="1"/>
-                <preferred-size width="240" height="30"/>
-                <maximum-size width="280" height="40"/>
+                <preferred-size width="210" height="30"/>
+                <maximum-size width="230" height="40"/>
               </grid>
             </constraints>
             <properties>
               <text value="Use CPU Model(with llama.cpp)"/>
             </properties>
           </component>
-          <component id="d8cad" class="javax.swing.JTextField" binding="cpuCompletionUrlTextField">
+          <component id="d8cad" class="javax.swing.JTextField" binding="serverAddressTextField">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="1" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="1" height="1"/>
                 <preferred-size width="450" height="30"/>
                 <maximum-size width="500" height="40"/>
@@ -102,7 +44,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="cc049" class="javax.swing.JLabel" binding="cpucompletionUrlLabel">
+          <component id="cc049" class="javax.swing.JLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="1" height="1"/>
@@ -111,31 +53,19 @@
               </grid>
             </constraints>
             <properties>
-              <text value="   Completion URL"/>
+              <text value="   Server Address"/>
             </properties>
           </component>
-          <component id="446e" class="javax.swing.JLabel" binding="cpuAssistantsUrlLabel">
+          <component id="29677" class="javax.swing.JRadioButton" binding="useGPUModelRadioButton">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="0" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="1" height="1"/>
-                <preferred-size width="105" height="30"/>
-                <maximum-size width="105" height="40"/>
+                <preferred-size width="250" height="30"/>
+                <maximum-size width="270" height="40"/>
               </grid>
             </constraints>
             <properties>
-              <text value="   Assistants URL"/>
-            </properties>
-          </component>
-          <component id="a4b3a" class="javax.swing.JTextField" binding="cpuAssistantsUrlTextField">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1" height="1"/>
-                <preferred-size width="450" height="30"/>
-                <maximum-size width="500" height="40"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value=""/>
+              <text value="Use GPU Model(with TGI framework)"/>
             </properties>
           </component>
         </children>

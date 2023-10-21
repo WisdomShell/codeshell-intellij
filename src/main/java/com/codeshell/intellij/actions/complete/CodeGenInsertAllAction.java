@@ -18,6 +18,7 @@ public class CodeGenInsertAllAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
+        System.out.println("CodeGenInsertAllAction");
         Editor editor = e.getData(CommonDataKeys.EDITOR);
         Caret caret = e.getData(CommonDataKeys.CARET);
         VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
@@ -37,6 +38,7 @@ public class CodeGenInsertAllAction extends AnAction {
     }
 
     public static boolean performAction(Editor editor, Caret caret, VirtualFile file) {
+        System.out.println("CodeGenInsertAllAction2");
         if (Objects.isNull(file)) {
             return false;
         }
