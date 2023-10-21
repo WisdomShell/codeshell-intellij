@@ -4,8 +4,8 @@ public enum CodeShellURI {
 
     CPU_COMPLETE("/infill"),
     CPU_CHAT("/completion"),
-    GPU_COMPLETE("/completion"),
-    GPU_CHAT("/assistants");
+    GPU_COMPLETE("/generate"),
+    GPU_CHAT("/generate_stream");
 
     private final String uri;
 
