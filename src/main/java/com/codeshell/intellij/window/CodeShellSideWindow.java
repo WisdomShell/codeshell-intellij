@@ -4,6 +4,7 @@ import com.codeshell.intellij.handlers.CustomSchemeHandlerFactory;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.settings.CodeShellSettings;
 import com.google.gson.JsonObject;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.ui.jcef.JBCefBrowser;
@@ -42,8 +43,7 @@ public class CodeShellSideWindow {
                 try {
                     browser = JBCefBrowser.createBuilder().setOffScreenRendering(isOffScreenRendering).build();
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("JBCefBrowser# build Browser not supported");
+                    Logger.getInstance(getClass()).error("JBCefBrowser# build Browser not supported", e);
                     browser = new JBCefBrowser();
                 }
 
@@ -54,7 +54,7 @@ public class CodeShellSideWindow {
                 this.webLoaded = true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getInstance(getClass()).error("JBCefBrowser lazyLoad error", e);
         }
         return this.jbCefBrowser;
     }
@@ -102,7 +102,7 @@ public class CodeShellSideWindow {
 
             @Override
             public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
-                System.out.println("JBCefBrowser# onLoadError: " + failedUrl + " " + errorText);
+                Logger.getInstance(getClass()).error("JBCefBrowser# onLoadError, failedUrl:{}, errorText:{}", failedUrl, errorText);
             }
         }, browser.getCefBrowser());
     }

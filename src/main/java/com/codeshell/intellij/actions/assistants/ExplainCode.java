@@ -12,6 +12,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
@@ -24,6 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class ExplainCode extends DumbAwareAction implements IntentionAction {
+
+    @SafeFieldForPreview
+    private Logger logger = Logger.getInstance(this.getClass());
 
     @Override
     @IntentionName
@@ -70,7 +74,11 @@ public class ExplainCode extends DumbAwareAction implements IntentionAction {
             JsonObject jsonObject = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.EXPLAIN_CODE);
             JsonObject result = new JsonObject();
             ToolWindowManager tool = ToolWindowManager.getInstance(project);
-            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> System.out.println("******************* ExplainCode Enabled CodeShell window *******************"), true, true);
+            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(()-> {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("******************* ExplainCode Enabled CodeShell window *******************");
+                }
+            } , true, true);
             jsonObject.addProperty("fileName", vf.getName());
             jsonObject.addProperty("filePath", vf.getCanonicalPath());
             result.addProperty("data", jsonObject.toString());

@@ -73,21 +73,21 @@
                 <override-text place="GoToAction" text="CodeShell: Clean Code"/>
             </action>
             <separator/>
-            <action id="CodeShell.CommentCode" class="com.codeshell.intellij.actions.assistants.CommentCode" text="Generate Comment">
+            <action id="CodeShell.CommentCode" class="com.codeshell.intellij.actions.assistants.GenerateComment" text="Generate Comment">
                 <override-text place="GoToAction" text="CodeShell: Generate Comment"/>
                 <keyboard-shortcut first-keystroke="alt V" keymap="$default"/>
             </action>
-            <action id="CodeShell.UnitTestCode" class="com.codeshell.intellij.actions.assistants.UnitTestCode" text="Generate Unit Tests">
+            <action id="CodeShell.UnitTestCode" class="com.codeshell.intellij.actions.assistants.GenerateUnitTests" text="Generate Unit Tests">
                 <override-text place="GoToAction" text="CodeShell: Generate Unit Tests"/>
             </action>
             <separator/>
-            <action id="CodeShell.PerformanceCode" class="com.codeshell.intellij.actions.assistants.PerformanceCode" text="Performance Check">
+            <action id="CodeShell.PerformanceCode" class="com.codeshell.intellij.actions.assistants.PerformanceCheck" text="Performance Check">
                 <override-text place="GoToAction" text="CodeShell: Performance Check"/>
             </action>
-            <action id="CodeShell.StyleCode" class="com.codeshell.intellij.actions.assistants.StyleCode" text="Style Check">
+            <action id="CodeShell.StyleCode" class="com.codeshell.intellij.actions.assistants.StyleCheck" text="Style Check">
                 <override-text place="GoToAction" text="CodeShell: Style Check"/>
             </action>
-            <action id="CodeShell.SecurityCode" class="com.codeshell.intellij.actions.assistants.SecurityCode" text="Security Check">
+            <action id="CodeShell.SecurityCode" class="com.codeshell.intellij.actions.assistants.SecurityCheck" text="Security Check">
                 <override-text place="GoToAction" text="CodeShell: Security Check"/>
             </action>
         </group>

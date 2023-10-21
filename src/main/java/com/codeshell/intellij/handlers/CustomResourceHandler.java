@@ -1,5 +1,6 @@
 package com.codeshell.intellij.handlers;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefResourceHandler;
@@ -55,7 +56,7 @@ public class CustomResourceHandler implements CefResourceHandler {
             callback.Continue();
             isRequestProcessed = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getInstance(getClass()).error("JBCefBrowser# request failed:{}", e);
             isRequestProcessed = false;
         }
         return isRequestProcessed;
@@ -72,7 +73,7 @@ public class CustomResourceHandler implements CefResourceHandler {
         try {
             isResponseRead = getResourceHandlerState().readResponse(dataOut, bytesToRead, bytesRead, callback);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getInstance(getClass()).error("JBCefBrowser# readResponse failed:{}", e);
             isResponseRead = false;
         }
         return isResponseRead;
@@ -84,7 +85,7 @@ public class CustomResourceHandler implements CefResourceHandler {
             getResourceHandlerState().close();
             setResourceHandlerState(null);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getInstance(getClass()).error("JBCefBrowser# cancel failed:{}", e);
         }
 
     }

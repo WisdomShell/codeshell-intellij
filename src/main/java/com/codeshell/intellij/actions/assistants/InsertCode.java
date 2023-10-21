@@ -4,12 +4,14 @@ import com.codeshell.intellij.constant.PrefixString;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.utils.EditorUtils;
 import com.google.gson.JsonObject;
+import com.intellij.codeInsight.intention.FileModifier;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -20,6 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class InsertCode extends AnAction {
+
+    @FileModifier.SafeFieldForPreview
+    private Logger logger = Logger.getInstance(this.getClass());
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -37,7 +42,11 @@ public class InsertCode extends AnAction {
             JsonObject jsonObject = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.COMMENT_CODE);
             JsonObject result = new JsonObject();
             ToolWindowManager tool = ToolWindowManager.getInstance(project);
-            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> System.out.println("******************* InsertCode Enabled CodeShell window *******************"), true, true);
+            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> {
+                if(logger.isDebugEnabled()){
+                    logger.debug("******************* InsertCode Enabled CodeShell window *******************");
+                }
+            }, true, true);
             jsonObject.addProperty("fileName", vf.getName());
             jsonObject.addProperty("filePath", vf.getCanonicalPath());
             result.addProperty("data", jsonObject.toString());

@@ -12,6 +12,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
@@ -23,13 +24,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PerformanceCode extends DumbAwareAction implements IntentionAction {
+public class SecurityCheck extends DumbAwareAction implements IntentionAction {
+
+    @SafeFieldForPreview
+    private Logger logger = Logger.getInstance(this.getClass());
 
     @Override
     @IntentionName
     @NotNull
     public String getText() {
-        return "Performance Code";
+        return "Security Check";
     }
 
     @Override
@@ -67,13 +71,17 @@ public class PerformanceCode extends DumbAwareAction implements IntentionAction 
                 return;
             }
             PsiFile psiFile = e.getRequiredData(CommonDataKeys.PSI_FILE);
-            JsonObject jsonObject = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.PERFORMANCE_CODE);
+            JsonObject json = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.SECURITY_CODE);
             JsonObject result = new JsonObject();
             ToolWindowManager tool = ToolWindowManager.getInstance(project);
-            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> System.out.println("******************* PerformanceCode Enabled CodeShell window *******************"), true, true);
-            jsonObject.addProperty("fileName", vf.getName());
-            jsonObject.addProperty("filePath", vf.getCanonicalPath());
-            result.addProperty("data", jsonObject.toString());
+            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> {
+                if(logger.isDebugEnabled()){
+                    logger.debug("******************* SecurityCode Enabled CodeShell window *******************");
+                }
+            }, true, true);
+            json.addProperty("fileName", vf.getName());
+            json.addProperty("filePath", vf.getCanonicalPath());
+            result.addProperty("data", json.toString());
             (project.getService(CodeShellSideWindowService.class)).notifyIdeAppInstance(result);
         }, ModalityState.NON_MODAL);
     }

@@ -12,6 +12,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
@@ -23,13 +24,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class SecurityCode extends DumbAwareAction implements IntentionAction {
+public class GenerateUnitTests extends DumbAwareAction implements IntentionAction {
+
+    @SafeFieldForPreview
+    private Logger logger = Logger.getInstance(this.getClass());
 
     @Override
     @IntentionName
     @NotNull
     public String getText() {
-        return "Security Code";
+        return "Generate Unit Tests";
     }
 
     @Override
@@ -67,10 +71,14 @@ public class SecurityCode extends DumbAwareAction implements IntentionAction {
                 return;
             }
             PsiFile psiFile = e.getRequiredData(CommonDataKeys.PSI_FILE);
-            JsonObject json = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.SECURITY_CODE);
+            JsonObject json = EditorUtils.getFileSelectionDetails(editor, psiFile, true, PrefixString.UNIT_TEST_CODE);
             JsonObject result = new JsonObject();
             ToolWindowManager tool = ToolWindowManager.getInstance(project);
-            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> System.out.println("******************* SecurityCode Enabled CodeShell window *******************"), true, true);
+            Objects.requireNonNull(tool.getToolWindow("CodeShell")).activate(() -> {
+                if(logger.isDebugEnabled()){
+                    logger.debug("******************* UnitTestCode Enabled CodeShell window *******************");
+                }
+            }, true, true);
             json.addProperty("fileName", vf.getName());
             json.addProperty("filePath", vf.getCanonicalPath());
             result.addProperty("data", json.toString());
