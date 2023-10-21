@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.util.Objects;
 
 public class CodeShellSideWindow {
+
+    private final Logger logger = Logger.getInstance(this.getClass());
     private JBCefBrowser jbCefBrowser;
     private final Project project;
     private boolean webLoaded;
@@ -43,7 +45,7 @@ public class CodeShellSideWindow {
                 try {
                     browser = JBCefBrowser.createBuilder().setOffScreenRendering(isOffScreenRendering).build();
                 } catch (Exception e) {
-                    Logger.getInstance(getClass()).error("JBCefBrowser# build Browser not supported", e);
+                    logger.error("JBCefBrowser# build Browser not supported", e);
                     browser = new JBCefBrowser();
                 }
 
@@ -54,7 +56,7 @@ public class CodeShellSideWindow {
                 this.webLoaded = true;
             }
         } catch (Exception e) {
-            Logger.getInstance(getClass()).error("JBCefBrowser lazyLoad error", e);
+            logger.error("JBCefBrowser lazyLoad error", e);
         }
         return this.jbCefBrowser;
     }
@@ -65,6 +67,7 @@ public class CodeShellSideWindow {
             try {
                 return new JBCefJSQuery.Response("123");
             } catch (Exception e) {
+                logger.warn("JBCefJSQuery error", e);
                 return new JBCefJSQuery.Response(null, 0, "errorMsg");
             }
         });
@@ -102,7 +105,7 @@ public class CodeShellSideWindow {
 
             @Override
             public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
-                Logger.getInstance(getClass()).error("JBCefBrowser# onLoadError, failedUrl:{}, errorText:{}", failedUrl, errorText);
+                logger.error("JBCefBrowser# onLoadError, failedUrl:{}, errorText:{}", failedUrl, errorText);
             }
         }, browser.getCefBrowser());
     }

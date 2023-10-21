@@ -17,6 +17,9 @@ import java.util.regex.Pattern;
 
 
 public class CustomResourceHandler implements CefResourceHandler {
+
+    private final Logger logger = Logger.getInstance(this.getClass());
+
     private final Project project;
 
     private ResourceHandlerState resourceHandlerState;
@@ -56,7 +59,7 @@ public class CustomResourceHandler implements CefResourceHandler {
             callback.Continue();
             isRequestProcessed = true;
         } catch (IOException e) {
-            Logger.getInstance(getClass()).error("JBCefBrowser# request failed:{}", e);
+            logger.error("JBCefBrowser# request failed:{}", e);
             isRequestProcessed = false;
         }
         return isRequestProcessed;
@@ -73,7 +76,7 @@ public class CustomResourceHandler implements CefResourceHandler {
         try {
             isResponseRead = getResourceHandlerState().readResponse(dataOut, bytesToRead, bytesRead, callback);
         } catch (IOException e) {
-            Logger.getInstance(getClass()).error("JBCefBrowser# readResponse failed:{}", e);
+            logger.error("JBCefBrowser# readResponse failed:{}", e);
             isResponseRead = false;
         }
         return isResponseRead;
@@ -85,7 +88,7 @@ public class CustomResourceHandler implements CefResourceHandler {
             getResourceHandlerState().close();
             setResourceHandlerState(null);
         } catch (IOException e) {
-            Logger.getInstance(getClass()).error("JBCefBrowser# cancel failed:{}", e);
+            logger.error("JBCefBrowser# cancel failed:{}", e);
         }
 
     }
