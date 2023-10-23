@@ -7,6 +7,7 @@ import com.codeshell.intellij.settings.CodeShellSettings;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.intellij.openapi.application.ApplicationInfo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
@@ -86,6 +87,21 @@ public class CodeShellUtils {
         }
         String responseText = generatedText.replace(PrefixString.RESPONSE_END_TAG, "");
         return responseText;
+    }
+
+    public static String getIDEAVersion(String whichVersion) {
+        ApplicationInfo applicationInfo = ApplicationInfo.getInstance();
+        String version = "";
+        try {
+            if (whichVersion.equalsIgnoreCase("major")) {
+                version = applicationInfo.getMajorVersion();
+            } else {
+                version = applicationInfo.getFullVersion();
+            }
+        } catch (Exception e) {
+            System.out.println("Error getting IDE full version" + e);
+        }
+        return version;
     }
 
 }
