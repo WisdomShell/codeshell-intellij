@@ -1,5 +1,7 @@
 # CodeShell IntelliJ IDEA Extension
 
+[![English readme](https://img.shields.io/badge/README-English-blue)](README_EN.md)
+
 `codeshell-intellij`项目是基于[CodeShell大模型](https://github.com/WisdomShell/codeshell)开发的支持[IntelliJ IDEA、Pycharm、GoLang](https://www.jetbrains.com/zh-cn/products/)等多种IDE的智能编码助手插件，支持python、java、c++/c、javascript、go等多种编程语言，为开发者提供代码补全、代码解释、代码优化、注释生成、对话问答等功能，旨在通过智能化的方式帮助开发者提高编程效率。
 
 ## 环境要求
@@ -124,7 +126,7 @@ docker run --gpus 'all' --shm-size 1g -p 9090:80 -v $HOME/models:/data \
 
 注意：不同的模型运行环境可以在插件中进行配置。对于[CodeShell-7B-Chat-int4](https://huggingface.co/WisdomShell/CodeShell-7B-Chat-int4)模型，您可以在`Model Runtime Environment`选项中选择`Use CPU Mode(with llama.cpp)`选项。而对于[CodeShell-7B](https://huggingface.co/WisdomShell/CodeShell-7B)和[CodeShell-7B-Chat](https://huggingface.co/WisdomShell/CodeShell-7B-Chat)模型，应选择`Use GPU Model(with TGI framework)`选项。
 
-![插件配置截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_config.png)
+![插件配置截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_config_new.png)
 
 ## 功能特性
 
@@ -146,8 +148,6 @@ docker run --gpus 'all' --shm-size 1g -p 9090:80 -v $HOME/models:/data \
 
 在IDE侧边栏中打开插件问答界面，在编辑器中选中一段代码，在鼠标右键CodeShell菜单中选择对应的功能项，插件将在问答界面中给出相应的答复。
 
-在问答界面的代码块中，可以点击复制按钮复制该代码块。
-
 ![代码辅助截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_inte.png)
 
 ### 3. 智能问答
@@ -159,5 +159,8 @@ docker run --gpus 'all' --shm-size 1g -p 9090:80 -v $HOME/models:/data \
 
 ![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.png)
 
+在问答界面的代码块中，可以点击复制按钮复制该代码块。
+
 ## 开源协议
+
 Apache 2.0
