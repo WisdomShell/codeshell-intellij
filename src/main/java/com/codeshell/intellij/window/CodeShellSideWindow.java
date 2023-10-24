@@ -4,10 +4,12 @@ import com.codeshell.intellij.enums.CodeShellURI;
 import com.codeshell.intellij.handlers.CustomSchemeHandlerFactory;
 import com.codeshell.intellij.services.CodeShellSideWindowService;
 import com.codeshell.intellij.settings.CodeShellSettings;
+import com.codeshell.intellij.utils.CodeShellUtils;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.ui.jcef.JBCefBrowser;
 import com.intellij.ui.jcef.JBCefBrowserBase;
 import com.intellij.ui.jcef.JBCefJSQuery;
@@ -40,8 +42,21 @@ public class CodeShellSideWindow {
 
     private JBCefBrowser lazyLoad() {
         try {
+            String ideaVersion = CodeShellUtils.getIDEAVersion("major");
             if (!this.webLoaded) {
-                boolean isOffScreenRendering = false;
+                boolean isOffScreenRendering = true;
+                if (SystemInfo.isMac) {
+                    isOffScreenRendering = false;
+                } else if (SystemInfo.isLinux || SystemInfo.isUnix) {
+                    int version = Integer.parseInt(ideaVersion);
+                    if (version >= 2023) {
+                        isOffScreenRendering = true;
+                    } else if (version < 2023) {
+                        isOffScreenRendering = false;
+                    }
+                } else if (SystemInfo.isWindows) {
+                    isOffScreenRendering = false;
+                }
                 JBCefBrowser browser;
                 try {
                     browser = JBCefBrowser.createBuilder().setOffScreenRendering(isOffScreenRendering).build();
