@@ -5,9 +5,9 @@ import com.codeshell.intellij.constant.PrefixString;
 import com.codeshell.intellij.model.GenerateModel;
 import com.codeshell.intellij.settings.CodeShellSettings;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.application.ApplicationInfo;
+import com.intellij.openapi.diagnostic.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
@@ -74,8 +74,7 @@ public class CodeShellUtils {
             }
             contentBuilder.append(content);
         }
-        String responseText = contentBuilder.toString().replace(PrefixString.RESPONSE_END_TAG, "");
-        return responseText;
+        return contentBuilder.toString().replace(PrefixString.RESPONSE_END_TAG, "");
     }
 
     public static String parseHttpResponseContentForGPU(CodeShellSettings settings, String responseBody){
@@ -85,8 +84,7 @@ public class CodeShellUtils {
         if (StringUtils.isNotBlank(generateModel.getGenerated_text())) {
             generatedText = generateModel.getGenerated_text();
         }
-        String responseText = generatedText.replace(PrefixString.RESPONSE_END_TAG, "");
-        return responseText;
+        return generatedText.replace(PrefixString.RESPONSE_END_TAG, "");
     }
 
     public static String getIDEAVersion(String whichVersion) {
@@ -99,7 +97,7 @@ public class CodeShellUtils {
                 version = applicationInfo.getFullVersion();
             }
         } catch (Exception e) {
-            System.out.println("Error getting IDE full version" + e);
+            Logger.getInstance(CodeShellUtils.class).error("get IDE full version error", e);
         }
         return version;
     }

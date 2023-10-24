@@ -1,5 +1,6 @@
 package com.codeshell.intellij.handlers;
 
+import com.intellij.openapi.diagnostic.Logger;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefLoadHandler;
 import org.cef.misc.IntRef;
@@ -47,6 +48,7 @@ public class OpenedConnection implements ResourceHandlerState {
             responseLength.set(inputStream().available());
             cefResponse.setStatus(200);
         } catch (IOException e) {
+            Logger.getInstance(this.getClass()).error("getResponseHeaders error", e);
             cefResponse.setError(CefLoadHandler.ErrorCode.ERR_FILE_NOT_FOUND);
             cefResponse.setStatusText(e.getLocalizedMessage());
             cefResponse.setStatus(404);

@@ -6,6 +6,7 @@ import com.codeshell.intellij.settings.CodeShellSettings;
 import com.codeshell.intellij.utils.CodeShellUtils;
 import com.codeshell.intellij.widget.CodeShellWidget;
 import com.google.gson.JsonObject;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.wm.WindowManager;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class CodeShellCompleteService {
+    private final Logger logger = Logger.getInstance(this.getClass());
     private static final String PREFIX_TAG = "<fim_prefix>";
     private static final String SUFFIX_TAG = "<fim_suffix>";
     private static final String MIDDLE_TAG = "<fim_middle>";
@@ -34,7 +36,7 @@ public class CodeShellCompleteService {
     public String[] getCodeCompletionHints(CharSequence editorContents, int cursorPosition) {
         CodeShellSettings settings = CodeShellSettings.getInstance();
         String contents = editorContents.toString();
-        if (!httpRequestFinFlag || !settings.isSaytEnabled() || contents.length() == 0) {
+        if (!httpRequestFinFlag || !settings.isSaytEnabled() || StringUtils.isBlank(contents)) {
             return null;
         }
         if (contents.contains(PREFIX_TAG) || contents.contains(SUFFIX_TAG) || contents.contains(MIDDLE_TAG) || contents.contains(PrefixString.RESPONSE_END_TAG)) {
@@ -113,6 +115,7 @@ public class CodeShellCompleteService {
             responseText = CodeShellUtils.parseHttpResponseContentForCPU(settings, responseBody, PATTERN);
             httpClient.close();
         } catch (IOException e) {
+            logger.error("getApiResponseForCPU error", e);
         } finally {
             httpRequestFinFlag = true;
         }
@@ -139,6 +142,7 @@ public class CodeShellCompleteService {
             responseText = CodeShellUtils.parseHttpResponseContentForGPU(settings, responseBody);
             httpClient.close();
         } catch (IOException e) {
+            logger.error("getApiResponseForGPU error", e);
         } finally {
             httpRequestFinFlag = true;
         }
