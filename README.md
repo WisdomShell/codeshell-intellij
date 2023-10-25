@@ -2,7 +2,7 @@
 
 [![English readme](https://img.shields.io/badge/README-English-blue)](README_EN.md)
 
-`codeshell-intellij`项目是基于[CodeShell大模型](https://github.com/WisdomShell/codeshell)开发的支持[IntelliJ IDEA、Pycharm、GoLang](https://www.jetbrains.com/zh-cn/products/)等多种IDE的智能编码助手插件，支持python、java、c++/c、javascript、go等多种编程语言，为开发者提供代码补全、代码解释、代码优化、注释生成、对话问答等功能，旨在通过智能化的方式帮助开发者提高编程效率。
+`codeshell-intellij`项目是基于[CodeShell大模型](https://github.com/WisdomShell/codeshell)开发的支持[IntelliJ IDEA、Pycharm、GoLand](https://www.jetbrains.com/zh-cn/products/)等多种IDE的智能编码助手插件，支持python、java、c++/c、javascript、go等多种编程语言，为开发者提供代码补全、代码解释、代码优化、注释生成、对话问答等功能，旨在通过智能化的方式帮助开发者提高编程效率。
 
 ## 环境要求
 

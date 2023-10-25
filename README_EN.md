@@ -2,7 +2,7 @@
 
 [![Chinese readme](https://img.shields.io/badge/README-Chinese-blue)](README.md)
 
-The `codeshell-intellij`project is an open-source plugin developed based on the [CodeShell LLM](https://github.com/WisdomShell/codeshell) that support various IDEs, including [IntelliJ IDEA、Pycharm、GoLang](https://www.jetbrains.com/zh-cn/products/). It serves as an intelligent coding assistant, offering support for various programming languages such as Python, Java, C/C++, JavaScript, Go, and more. This plugin provides features like code completion, code interpretation, code optimization, comment generation, and conversational Q&A to help developers enhance their coding efficiency in an intelligent manner.
+The `codeshell-intellij`project is an open-source plugin developed based on the [CodeShell LLM](https://github.com/WisdomShell/codeshell) that support various IDEs, including [IntelliJ IDEA、Pycharm、GoLand](https://www.jetbrains.com/zh-cn/products/). It serves as an intelligent coding assistant, offering support for various programming languages such as Python, Java, C/C++, JavaScript, Go, and more. This plugin provides features like code completion, code interpretation, code optimization, comment generation, and conversational Q&A to help developers enhance their coding efficiency in an intelligent manner.
 
 ## Requirements
 
