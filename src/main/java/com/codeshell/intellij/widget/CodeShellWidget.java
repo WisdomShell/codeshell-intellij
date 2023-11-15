@@ -34,6 +34,8 @@ import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 public class CodeShellWidget extends EditorBasedWidget
         implements StatusBarWidget.Multiframe, StatusBarWidget.IconPresentation,
@@ -255,7 +257,11 @@ public class CodeShellWidget extends EditorBasedWidget
 
         CodeShellCompleteService codeShell = ApplicationManager.getApplication().getService(CodeShellCompleteService.class);
         CharSequence editorContents = focusedEditor.getDocument().getCharsSequence();
-        CompletableFuture<String[]> future = CompletableFuture.supplyAsync(() -> codeShell.getCodeCompletionHints(editorContents, currentPosition));
+        int randomKey = codeShell.setRandomKey();
+        Executor delayedExecutor = CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS);
+        CompletableFuture<String[]> future = CompletableFuture.supplyAsync(
+                () -> codeShell.getCodeCompletionHints(editorContents, currentPosition, randomKey),
+                delayedExecutor);
         future.thenAccept(hintList -> this.addCodeSuggestion(focusedEditor, file, currentPosition, hintList));
     }
 

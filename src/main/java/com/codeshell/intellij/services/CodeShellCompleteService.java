@@ -20,6 +20,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 public class CodeShellCompleteService {
@@ -32,8 +34,20 @@ public class CodeShellCompleteService {
     private static long lastRequestTime = 0;
     private static boolean httpRequestFinFlag = true;
     private int statusCode = 200;
+    private final AtomicInteger randomKey = new AtomicInteger();
 
-    public String[] getCodeCompletionHints(CharSequence editorContents, int cursorPosition) {
+    public int setRandomKey() {
+        int randomNumber;
+        do {
+            randomNumber = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
+        } while (!randomKey.compareAndSet(randomKey.get(), randomNumber));
+        return randomNumber;
+    }
+
+    public String[] getCodeCompletionHints(CharSequence editorContents, int cursorPosition, int randomKey) {
+        if (randomKey != this.randomKey.get()) {
+            return null;
+        }
         CodeShellSettings settings = CodeShellSettings.getInstance();
         String contents = editorContents.toString();
         if (!httpRequestFinFlag || !settings.isSaytEnabled() || StringUtils.isBlank(contents)) {
