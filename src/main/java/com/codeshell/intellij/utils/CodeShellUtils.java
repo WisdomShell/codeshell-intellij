@@ -4,12 +4,19 @@ import com.alibaba.fastjson2.JSONObject;
 import com.codeshell.intellij.constant.PrefixString;
 import com.codeshell.intellij.model.GenerateModel;
 import com.codeshell.intellij.settings.CodeShellSettings;
+import com.codeshell.intellij.widget.CodeShellWidget;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.application.ApplicationInfo;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.Inlay;
+import com.intellij.openapi.editor.InlayModel;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,7 +94,7 @@ public class CodeShellUtils {
         return generatedText.replace(PrefixString.RESPONSE_END_TAG, "");
     }
 
-    public static String getIDEAVersion(String whichVersion) {
+    public static String getIDEVersion(String whichVersion) {
         ApplicationInfo applicationInfo = ApplicationInfo.getInstance();
         String version = "";
         try {
@@ -100,6 +107,38 @@ public class CodeShellUtils {
             Logger.getInstance(CodeShellUtils.class).error("get IDE full version error", e);
         }
         return version;
+    }
+
+    public static void addCodeSuggestion(Editor focusedEditor, VirtualFile file, int suggestionPosition, String[] hintList) {
+        WriteCommandAction.runWriteCommandAction(focusedEditor.getProject(), () -> {
+            if (suggestionPosition != focusedEditor.getCaretModel().getOffset()) {
+                return;
+            }
+            if (Objects.nonNull(focusedEditor.getSelectionModel().getSelectedText())) {
+                return;
+            }
+
+            file.putUserData(CodeShellWidget.SHELL_CODER_CODE_SUGGESTION, hintList);
+            file.putUserData(CodeShellWidget.SHELL_CODER_POSITION, suggestionPosition);
+
+            InlayModel inlayModel = focusedEditor.getInlayModel();
+            inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
+            inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
+            if (Objects.nonNull(hintList) && hintList.length > 0) {
+                if (!hintList[0].trim().isEmpty()) {
+                    inlayModel.addInlineElement(suggestionPosition, true, new CodeGenHintRenderer(hintList[0]));
+                }
+                for (int i = 1; i < hintList.length; i++) {
+                    inlayModel.addBlockElement(suggestionPosition, false, false, 0, new CodeGenHintRenderer(hintList[i]));
+                }
+            }
+        });
+    }
+
+    public static void disposeInlayHints(Inlay<?> inlay) {
+        if (inlay.getRenderer() instanceof CodeGenHintRenderer) {
+            inlay.dispose();
+        }
     }
 
 }

@@ -5,9 +5,9 @@ import com.codeshell.intellij.services.CodeShellCompleteService;
 import com.codeshell.intellij.settings.CodeShellSettings;
 import com.codeshell.intellij.utils.CodeGenHintRenderer;
 import com.codeshell.intellij.utils.CodeShellIcons;
+import com.codeshell.intellij.utils.CodeShellUtils;
 import com.codeshell.intellij.utils.EditorUtils;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.editor.event.*;
 import com.intellij.openapi.editor.impl.EditorComponentImpl;
@@ -42,7 +42,7 @@ public class CodeShellWidget extends EditorBasedWidget
 
     public static final Key<String[]> SHELL_CODER_CODE_SUGGESTION = new Key<>("CodeShell Code Suggestion");
     public static final Key<Integer> SHELL_CODER_POSITION = new Key<>("CodeShell Position");
-
+    public static boolean enableSuggestion = false;
     protected CodeShellWidget(@NotNull Project project) {
         super(project);
     }
@@ -181,6 +181,7 @@ public class CodeShellWidget extends EditorBasedWidget
 
     @Override
     public void afterDocumentChange(@NotNull Document document) {
+        enableSuggestion = true;
         if (ApplicationManager.getApplication().isDispatchThread()) {
             EditorFactory.getInstance().editors(document)
                     .filter(this::isFocusedEditor)
@@ -190,7 +191,7 @@ public class CodeShellWidget extends EditorBasedWidget
     }
 
     private void updateInlayHints(Editor focusedEditor) {
-        if (Objects.isNull(focusedEditor)) {
+        if (Objects.isNull(focusedEditor) || !EditorUtils.isMainEditor(focusedEditor)) {
             return;
         }
         VirtualFile file = FileDocumentManager.getInstance().getFile(focusedEditor.getDocument());
@@ -206,8 +207,8 @@ public class CodeShellWidget extends EditorBasedWidget
                 file.putUserData(SHELL_CODER_POSITION, focusedEditor.getCaretModel().getOffset());
 
                 InlayModel inlayModel = focusedEditor.getInlayModel();
-                inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
-                inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
+                inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
+                inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
             }
             return;
         }
@@ -229,8 +230,9 @@ public class CodeShellWidget extends EditorBasedWidget
                 }
                 if (inlineHint.startsWith(modifiedText)) {
                     inlineHint = inlineHint.substring(modifiedText.length());
+                    enableSuggestion = false;
                     if (inlineHint.length() > 0) {
-                        inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
+                        inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
                         inlayModel.addInlineElement(currentPosition, true, new CodeGenHintRenderer(inlineHint));
                         existingHints[0] = inlineHint;
 
@@ -239,7 +241,7 @@ public class CodeShellWidget extends EditorBasedWidget
                         return;
                     } else if (existingHints.length > 1) {
                         existingHints = Arrays.copyOfRange(existingHints, 1, existingHints.length);
-                        addCodeSuggestion(focusedEditor, file, currentPosition, existingHints);
+                        CodeShellUtils.addCodeSuggestion(focusedEditor, file, currentPosition, existingHints);
                         return;
                     } else {
                         file.putUserData(SHELL_CODER_CODE_SUGGESTION, null);
@@ -248,47 +250,18 @@ public class CodeShellWidget extends EditorBasedWidget
             }
         }
 
-        inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
-        inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
+        inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
+        inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(CodeShellUtils::disposeInlayHints);
 
         file.putUserData(SHELL_CODER_POSITION, currentPosition);
-
+        if(!enableSuggestion || currentPosition < lastPosition){
+            enableSuggestion = false;
+            return;
+        }
         CodeShellCompleteService codeShell = ApplicationManager.getApplication().getService(CodeShellCompleteService.class);
         CharSequence editorContents = focusedEditor.getDocument().getCharsSequence();
         CompletableFuture<String[]> future = CompletableFuture.supplyAsync(() -> codeShell.getCodeCompletionHints(editorContents, currentPosition));
-        future.thenAccept(hintList -> this.addCodeSuggestion(focusedEditor, file, currentPosition, hintList));
-    }
-
-    private void disposeInlayHints(Inlay<?> inlay) {
-        if (inlay.getRenderer() instanceof CodeGenHintRenderer) {
-            inlay.dispose();
-        }
-    }
-
-    private void addCodeSuggestion(Editor focusedEditor, VirtualFile file, int suggestionPosition, String[] hintList) {
-        WriteCommandAction.runWriteCommandAction(focusedEditor.getProject(), () -> {
-            if (suggestionPosition != focusedEditor.getCaretModel().getOffset()) {
-                return;
-            }
-            if (Objects.nonNull(focusedEditor.getSelectionModel().getSelectedText())) {
-                return;
-            }
-
-            file.putUserData(SHELL_CODER_CODE_SUGGESTION, hintList);
-            file.putUserData(SHELL_CODER_POSITION, suggestionPosition);
-
-            InlayModel inlayModel = focusedEditor.getInlayModel();
-            inlayModel.getInlineElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
-            inlayModel.getBlockElementsInRange(0, focusedEditor.getDocument().getTextLength()).forEach(this::disposeInlayHints);
-            if (Objects.nonNull(hintList) && hintList.length > 0) {
-                if (!hintList[0].trim().isEmpty()) {
-                    inlayModel.addInlineElement(suggestionPosition, true, new CodeGenHintRenderer(hintList[0]));
-                }
-                for (int i = 1; i < hintList.length; i++) {
-                    inlayModel.addBlockElement(suggestionPosition, false, false, 0, new CodeGenHintRenderer(hintList[i]));
-                }
-            }
-        });
+        future.thenAccept(hintList -> CodeShellUtils.addCodeSuggestion(focusedEditor, file, currentPosition, hintList));
     }
 
 }

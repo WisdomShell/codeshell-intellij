@@ -135,7 +135,7 @@ Note: Different model runtime environments can be configured within the plugin. 
 
 - Automatic Code Suggestions
 
-During coding, when you stop typing, code suggestions will automatically trigger (configurable with a delay of 1 to 3 seconds in the plugin settings).
+During coding, when you stop typing, code suggestions will automatically trigger.
 
 When the plugin provides code suggestions, they are displayed in gray at the editor's cursor location. You can press the Tab key to accept the suggestion or continue typing to ignore it.
 

@@ -42,7 +42,7 @@ public class CodeShellSideWindow {
 
     private JBCefBrowser lazyLoad() {
         try {
-            String ideaVersion = CodeShellUtils.getIDEAVersion("major");
+            String ideaVersion = CodeShellUtils.getIDEVersion("major");
             if (!this.webLoaded) {
                 boolean isOffScreenRendering = true;
                 if (SystemInfo.isMac) {
