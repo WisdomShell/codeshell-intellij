@@ -22,7 +22,7 @@ git clone https://github.com/WisdomShell/codeshell-intellij.git
 - Right-click on `runIde` and choose to start in Debug mode.
 
 
-![插件DEBUG截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/debug-plugin.png)
+![插件DEBUG截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_debug_plugin.png)
 
 ### Package the Plugin
 
@@ -33,7 +33,7 @@ git clone https://github.com/WisdomShell/codeshell-intellij.git
 
 - Installation Process: Go to `Settings` > `Plugins` > `Install Plugin from Disk...`, and in the opened file selection window, choose the plugin installation package
 
-![插件安装截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/install-plugin-disk.png)
+![插件安装截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_install_plugin.png)
 
 ##  Model Service
 
@@ -127,7 +127,7 @@ For a more detailed explanation of the parameters, please refer to the [text-gen
 
 Note: Different model runtime environments can be configured within the plugin. For the [CodeShell-7B-Chat-int4](https://huggingface.co/WisdomShell/CodeShell-7B-Chat-int4) model, you can choose the `Model Runtime Environment`option in the `Use CPU Mode(with llama.cpp)` menu. However, for the [CodeShell-7B](https://huggingface.co/WisdomShell/CodeShell-7B) and [CodeShell-7B-Chat](https://huggingface.co/WisdomShell/CodeShell-7B-Chat) models, you should select the `Use GPU Model(with TGI framework)` option.
 
-![插件配置截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_config_new.png)
+![插件配置截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_settings.png)
 
 ## Features
 
@@ -139,7 +139,7 @@ During coding, when you stop typing, code suggestions will automatically trigger
 
 When the plugin provides code suggestions, they are displayed in gray at the editor's cursor location. You can press the Tab key to accept the suggestion or continue typing to ignore it.
 
-![代码建议截图](https://resource.zsmarter.cn/appdata/codeshell-vscode/screenshots/docs_completion.png)
+![代码建议截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_completion.png)
 
 ### 2. Code Assistance
 
@@ -149,16 +149,15 @@ When the plugin provides code suggestions, they are displayed in gray at the edi
 
 In the IDE sidebar, open the plugin's Q&A interface. Select a portion of code in the editor, right-click to access the CodeShell menu, and choose the corresponding function. The plugin will provide relevant responses in the Q&A interface.
 
-![代码辅助截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_inte.png)
+![代码辅助截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_assistants.png)
 
 ### 3. Code Q&A
 
-- Support for Multi-turn Conversations
 - Edit Questions and Rephrase Inquiries
 - Request Fresh Responses for Any Question
 - Interrupt During the Answering Process
 
-![智能问答截图](https://resource.zsmarter.cn/appdata/codeshell-intellij/screenshots/code_chat.png)
+![智能问答截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/src/main/resources/assets/readme/docs_caht.png)
 
 Within the Q&A interface's code block, you can click the copy button to copy the code block or use the insert button to insert the code block's content at the editor's cursor location.
 
