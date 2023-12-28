@@ -157,7 +157,7 @@ In the IDE sidebar, open the plugin's Q&A interface. Select a portion of code in
 - Request Fresh Responses for Any Question
 - Interrupt During the Answering Process
 
-![智能问答截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/main/src/main/resources/assets/readme/docs_caht.png)
+![智能问答截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/main/src/main/resources/assets/readme/docs_chat.png)
 
 Within the Q&A interface's code block, you can click the copy button to copy the code block or use the insert button to insert the code block's content at the editor's cursor location.
 

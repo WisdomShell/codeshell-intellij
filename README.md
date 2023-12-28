@@ -156,7 +156,7 @@ docker run --gpus 'all' --shm-size 1g -p 9090:80 -v $HOME/models:/data \
 - 对任一问题，可重新获取回答
 - 在回答过程中，可以打断
 
-![智能问答截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/main/src/main/resources/assets/readme/docs_caht.png)
+![智能问答截图](https://raw.githubusercontent.com/WisdomShell/codeshell-intellij/main/src/main/resources/assets/readme/docs_chat.png)
 
 在问答界面的代码块中，可以点击复制按钮复制该代码块。
 
